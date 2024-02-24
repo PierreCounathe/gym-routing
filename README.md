@@ -10,17 +10,14 @@ Gym-Routing offers a suite of Gymnasium environments tailored for training Reinf
 
 
 # Installation
-1. Clone the repo and install required dependencies
+1. Clone the repo
 ```shell
 git clone https://github.com/PierreCounathe/gym-routing
-cd gym-routing
-python -m venv .env
-pip install -r requirements.txt
 ```
 
-2. Install the repo's package
+2. Install `gym_routing`
 ```shell
-pip install -e .
+pip install -e gym-routing
 ```
 
 3. Create an environment
