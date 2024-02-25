@@ -1,1 +1,1 @@
-from gym_routing.envs.tsp import TSPEnv
+from gym_routing.envs.tsp import ActionMaskedTSPEnv, TSPEnv
