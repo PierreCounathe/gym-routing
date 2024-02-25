@@ -95,6 +95,7 @@ class TSPEnv(gym.Env):
         observation = self._get_obs()
         info = self._get_info()
 
+        truncated = False
         if self.duration >= self.max_duration:
             truncated = True
 
