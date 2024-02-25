@@ -32,7 +32,10 @@ env = FlattenObservation(env)
 ```
 
 # Key features and improvements
-- [ ] (TSP) Traveling Salesman Problem
+
+## Environments
+- [x] (TSP) Vanilla Traveling Salesman Problem
+    - [x] Action Masked TSP
 - [ ] (VRP) Vehicle Routing Problem
 - [ ] (CVRP) Capacitated Vehicle Routing Problem
 

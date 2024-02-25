@@ -95,6 +95,7 @@ class TSPEnv(gym.Env):
         observation = self._get_obs()
         info = self._get_info()
 
+        truncated = False
         if self.duration >= self.max_duration:
             truncated = True
 
@@ -210,3 +211,29 @@ class TSPEnv(gym.Env):
         if self.window is not None:
             pygame.display.quit()
             pygame.quit()
+
+
+class ActionMaskedTSPEnv(TSPEnv):
+    def __init__(self, render_mode=None, size=5):
+        super().__init__(render_mode=render_mode, size=size)
+
+    def action_masks(self):
+        """
+        Return a mask of the available actions.
+        """
+        mask = np.zeros(self.size, dtype=bool)
+        if all(self._visited_nodes):
+            mask[self.STARTING_NODE] = 1  # Allow to return to the starting node
+        else:
+            mask[self._visited_nodes == 0] = 1  # Allow to visit unvisited nodes
+        return mask
+
+    def _get_info(self):
+        """
+        Return the current info.
+        """
+        return {
+            "n_visited_nodes": self._visited_nodes.sum(),
+            "visit_order": self.visit_order,
+            "action_mask": self.action_masks(),
+        }
