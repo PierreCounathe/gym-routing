@@ -10,17 +10,12 @@ Gym-Routing offers a suite of Gymnasium environments tailored for training Reinf
 
 
 # Installation
-1. Clone the repo
+1. Pip install the package defined in the repo
 ```shell
-git clone https://github.com/PierreCounathe/gym-routing
+pip install git+https://github.com/PierreCounathe/gym-routing
 ```
 
-2. Install `gym_routing`
-```shell
-pip install -e gym-routing
-```
-
-3. Create an environment
+2. Make the gym environment
 ```python
 import gymnasium as gym
 from gymnasium.wrappers import FlattenObservation
