@@ -15,14 +15,14 @@ Gym-Routing offers a suite of Gymnasium environments tailored for training Reinf
 pip install git+https://github.com/PierreCounathe/gym-routing
 ```
 
-2. Import ˋgym_routing` and make the gym environment
+2. Import `gym_routing` and make the gym environment
 ```python
 import gym_routing
 
 import gymnasium as gym
 from gymnasium.wrappers import FlattenObservation
 
-env = gym.make("gym_routing/TSP-v0")
+env = gym.make("gym_routing/TSP-v0")  # use "gym_routing/ActionMaskedTSP-v0" to use the action masked environment
 env = FlattenObservation(env)
 ```
 
