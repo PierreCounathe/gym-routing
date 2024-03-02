@@ -59,7 +59,7 @@ class TSPEnv(gym.Env):
         self.visit_order = [self._current_node]
 
         # Compute the distance matrix between the nodes
-        self._distance_matrix = self._compute_distance()
+        self.distance_matrix = self._compute_distance()
 
         observation = self._get_obs()
         info = self._get_info()
@@ -75,7 +75,7 @@ class TSPEnv(gym.Env):
         Returns observation, reward, terminated, truncated, info.
         """
         new_node = action
-        traveled_distance = self._distance_matrix[self._current_node, new_node]
+        traveled_distance = self.distance_matrix[self._current_node, new_node]
         self._visited_nodes[new_node] = 1
         self._current_node = new_node
         self.visit_order.append(int(new_node))
