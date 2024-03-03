@@ -14,7 +14,7 @@ class TSPEnv(gym.Env):
     def __init__(self, render_mode=None, size=5):
         self.size = size  # The number of stops to visit
         self.window_size = 512  # The size of the PyGame window
-        self.max_duration = 100 * size  # The maximum number of steps in an episode
+        self.max_duration = 5 * size  # The maximum number of steps in an episode
 
         # The observations are constituted by the positions of the nodes,
         # the index of the current node, and a binary vector indicating
@@ -76,28 +76,27 @@ class TSPEnv(gym.Env):
         """
         new_node = action
         traveled_distance = self.distance_matrix[self._current_node, new_node]
+        is_new_node = 1 - self._visited_nodes[new_node]
         self._visited_nodes[new_node] = 1
         self._current_node = new_node
         self.visit_order.append(int(new_node))
         self.duration += 1
         self.episode_distance += traveled_distance
 
+        reward = is_new_node - traveled_distance
         if self._current_node == self.STARTING_NODE:
             terminated = True
-            if all(self._visited_nodes):
-                reward = self.size - traveled_distance
-            else:
-                reward = -self._visited_nodes.sum() - traveled_distance
         else:
             terminated = False
-            reward = -traveled_distance
+
+        truncated = self.duration >= self.max_duration
+
+        if terminated or truncated:
+            # Add a negative reward if not all nodes are visited
+            reward += sum(self._visited_nodes) - self.size
 
         observation = self._get_obs()
         info = self._get_info()
-
-        truncated = False
-        if self.duration >= self.max_duration:
-            truncated = True
 
         if self.render_mode == "human":
             self._render_frame()
