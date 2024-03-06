@@ -1,12 +1,12 @@
 # Gym Routing: Reinforcement Learning Environments for Routing Problems
 
-Gym-Routing offers a suite of Gymnasium environments tailored for training Reinforcement Learning (RL) agents to tackle various routing problems.
+Gym-Routing aims at offering a suite of Gymnasium environments tailored for training Reinforcement Learning (RL) agents to tackle various routing problems.
 
 ## Table of contents
-- Installation
-- Key features and improvements
-- Tutorials and RL Agents Implementations
-- Repo setup
+- [Installation](https://github.com/PierreCounathe/gym-routing?tab=readme-ov-file#installation)
+- [Key features and improvements](https://github.com/PierreCounathe/gym-routing?tab=readme-ov-file#key-features-and-improvements)
+- [Tutorials and RL Agents Implementations](https://github.com/PierreCounathe/gym-routing?tab=readme-ov-file#tutorials-and-rl-agents-implementations)
+- [Repo setup](https://github.com/PierreCounathe/gym-routing?tab=readme-ov-file#repo-setup)
 
 
 # Installation
@@ -36,7 +36,7 @@ env = FlattenObservation(env)
 
 # Tutorials and RL Agents Implementations
 
-This section is WIP.
+This section is WIP: I am working on simple implementations of algorithms using stable-baselines3, that achieve high performance.
 
 # Repo setup
 
