@@ -11,14 +11,15 @@ class TSPEnv(gym.Env):
     }
     STARTING_NODE = 0
 
-    def __init__(self, render_mode=None, size=5):
+    def __init__(self, render_mode=None, size=5, adj_matrix_in_obs=False):
         self.size = size  # The number of stops to visit
         self.window_size = 512  # The size of the PyGame window
-        self.max_duration = 5 * size  # The maximum number of steps in an episode
+        self.max_duration = 2 * size  # The maximum number of steps in an episode
 
         # The observations are constituted by the positions of the nodes,
         # the index of the current node, and a binary vector indicating
-        # which nodes have been visited.
+        # which nodes have been visited. Also, the adjacency matrix can be included.
+        self.adj_matrix_in_obs = adj_matrix_in_obs
         self.observation_space = spaces.Dict(
             {
                 "nodes": spaces.Box(
@@ -26,6 +27,12 @@ class TSPEnv(gym.Env):
                 ),
                 "current_node": spaces.Discrete(self.size),
                 "visited_nodes": spaces.MultiBinary(self.size),
+                "adj_matrix": spaces.Box(
+                    low=0,
+                    high=np.sqrt(2),
+                    shape=(self.size, self.size),
+                    dtype=np.float64,
+                ),
             }
         )
 
@@ -59,7 +66,7 @@ class TSPEnv(gym.Env):
         self.visit_order = [self._current_node]
 
         # Compute the distance matrix between the nodes
-        self.distance_matrix = self._compute_distance()
+        self.adj_matrix = self._compute_distance()
 
         observation = self._get_obs()
         info = self._get_info()
@@ -75,7 +82,7 @@ class TSPEnv(gym.Env):
         Returns observation, reward, terminated, truncated, info.
         """
         new_node = action
-        traveled_distance = self.distance_matrix[self._current_node, new_node]
+        traveled_distance = self.adj_matrix[self._current_node, new_node]
         is_new_node = 1 - self._visited_nodes[new_node]
         self._visited_nodes[new_node] = 1
         self._current_node = new_node
@@ -107,11 +114,15 @@ class TSPEnv(gym.Env):
         """
         Return the current observation.
         """
-        return {
+        obs_dict = {
             "nodes": self._nodes,
             "current_node": self._current_node,
             "visited_nodes": self._visited_nodes,
         }
+        # if self.adj_matrix_in_obs:
+        if True:
+            obs_dict["adj_matrix"] = self.adj_matrix
+        return obs_dict
 
     def _get_info(self):
         """
@@ -213,8 +224,11 @@ class TSPEnv(gym.Env):
 
 
 class ActionMaskedTSPEnv(TSPEnv):
-    def __init__(self, render_mode=None, size=5):
-        super().__init__(render_mode=render_mode, size=size)
+    def __init__(self, render_mode=None, size=5, adj_matrix_in_obs=False):
+        super().__init__(
+            render_mode=render_mode, size=size, adj_matrix_in_obs=adj_matrix_in_obs
+        )
+        self.adj_matrix_in_obs = adj_matrix_in_obs
 
     def action_masks(self):
         """
