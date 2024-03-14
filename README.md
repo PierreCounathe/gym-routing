@@ -36,7 +36,24 @@ env = FlattenObservation(env)
 
 # Tutorials and RL Agents Implementations
 
-This section is WIP: I am working on simple implementations of algorithms using stable-baselines3, that achieve high performance.
+## Basic usage with Stable-Baselines3 algorithms implementations
+
+```python
+import gym_routing
+
+import gymnasium as gym
+from gymnasium.wrappers import FlattenObservation
+from stable_baselines3 import PPO
+
+
+# Define the environment
+env = gym.make("gym_routing/TSP-v0")
+env = FlattenObservation(env)
+
+# Define and train the agent
+ppo = PPO("MlpPolicy", env, verbose=1, tensorboard_log="./ppo_tsp_tensorboard/")
+ppo.learn(total_timesteps=5_000, progress_bar=True)
+```
 
 # Repo setup
 
