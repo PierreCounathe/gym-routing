@@ -22,8 +22,8 @@ def collect_action_masked(env: gym.Env, model: Any, observation: Any):
         action, _states = model.predict(
             observation, deterministic=True, action_masks=action_masks
         )
-    except TypeError:
-        raise NoActionMaskingSupport("The model does not support action masking.")
+    except TypeError as e:
+        raise NoActionMaskingSupport(f"The model does not support action masking: {e}")
     return action
 
 
